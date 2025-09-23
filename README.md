@@ -63,12 +63,11 @@ Project ini cocok untuk **personal blog, company blog, atau blog komunitas** yan
 
 ## 🛠️ Teknologi yang Digunakan
 
-- [Laravel 12](https://laravel.com/) - PHP Framework
+- [Laravel 12](https://laravel.com/docs/12.x/) - PHP Framework
 - [Bootstrap 5](https://getbootstrap.com/) - Frontend UI
 - [MySQL](https://www.mysql.com/) - Database
 - [Composer](https://getcomposer.org/) - Dependency Manager
 - [NPM](https://www.npmjs.com/) - Asset bundler
-- [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission) - Role & Permission
 
 ---
 
