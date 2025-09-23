@@ -60,8 +60,8 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Tags</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('dashboard.tags.index') }}">Tags</a></li>
         <li class="breadcrumb-item active" aria-current="page">Edit Tag</li>
       </ol>
     </nav>
@@ -82,7 +82,7 @@
         @method('PUT')
         <div class="mb-3">
           <label for="tagName" class="form-label">Tag Name</label>
-          <input type="text" class="form-control" id="tagName" name="name" value="Bootstrap" required>
+          <input type="text" class="form-control" id="tagName" name="name" value="{{ old('name',$tag->name) }}" required>
         </div>
         <button type="submit" class="btn btn-primary w-100">Edit Tag</button>
       </form>

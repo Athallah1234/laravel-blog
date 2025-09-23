@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', $monthName . ' ' . $year)
 
 @push('css')
   <style>
@@ -13,8 +13,9 @@
       letter-spacing: 1px;
       font-size: 1.6rem;
     }
-
-    /* Card Modern */
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: ">";
+    }
     .card {
       border: none;
       border-radius: 1.5rem;
@@ -27,11 +28,13 @@
       transform: translateY(-8px);
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
-    .card-title {
-      font-weight: 600;
+    .sidebar {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
     }
-
-    /* Buttons Gradient */
     .btn-primary {
       background: linear-gradient(135deg,#007bff,#00c6ff);
       border: none;
@@ -40,35 +43,6 @@
     .btn-primary:hover {
       background: linear-gradient(135deg,#00c6ff,#007bff);
     }
-
-    /* Sidebar Glass Effect */
-    .sidebar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    /* Tags */
-    .tag-cloud a {
-      display: inline-block;
-      background: #e9ecef;
-      color: #495057;
-      padding: 0.35rem 0.7rem;
-      margin: 0.2rem;
-      border-radius: 1rem;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: 0.3s;
-    }
-    .tag-cloud a:hover {
-      background: #007bff;
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    /* Footer */
     footer {
       background: #f8f9fa;
       color: #495057;
@@ -82,51 +56,62 @@
     footer a:hover {
       color: #007bff;
     }
-
-    /* Animations */
-    [data-aos] {
-      opacity: 0;
-      transition-property: opacity, transform;
+    .archive-month {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #007bff;
     }
-    [data-aos].aos-animate {
-      opacity: 1;
-    }
-
   </style>
 @endpush
 
 @section('content')
+<!-- Breadcrumb -->
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('archives.index') }}">Archive</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ $monthName }} {{ $year }}</li>
+    </ol>
+  </nav>
+</div>
+
+<!-- Archive Header -->
+<div class="container mb-4">
+  <h1 class="mb-2">Archive: {{ $monthName }} {{ $year }}</h1>
+</div>
+
 <!-- Main Content -->
 <div class="container my-5">
   <div class="row g-4">
-    <!-- Blog Posts -->
+    <!-- Archive Detail List -->
     <div class="col-lg-8">
+
+      <div class="archive-month">September 2025</div>
       <div class="row g-4">
+        <!-- Post 1 -->
         @forelse($posts as $post)
-          <!-- Post Card -->
           <div class="col-md-6" data-aos="fade-up">
             <div class="card shadow-sm">
-              <img src="{{ asset('storage/'.$post->avatar) }}" class="card-img-top" alt="{{ $post->title }}">
+              <img src="{{ asset('storage/'.$post->avatar) }}" class="card-img-top" alt="Post Image">
               <div class="card-body">
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text text-muted">{{ \Carbon\Carbon::parse($post->publish_date)->format('M d, Y') }}</p>
-                <p class="card-text">{{ Str::limit(strip_tags($post->content), 100) }}</p>
                 <a href="{{ route('post.show', $post->slug) }}" class="btn btn-primary btn-sm">Read More</a>
               </div>
             </div>
           </div>
         @empty
-          <p class="text-muted">No published posts available.</p>
+          <p>No posts found for this archive.</p>
         @endforelse
       </div>
 
       <!-- Pagination -->
       {{ $posts->links() }}
-    </div>
-
-    <!-- Sidebar -->
-    <div class="col-lg-4">
-      @include('partials.sidebar')
     </div>
   </div>
 </div>

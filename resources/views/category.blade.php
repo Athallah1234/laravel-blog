@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', $category->name)
 
 @push('css')
   <style>
@@ -12,6 +12,11 @@
       font-weight: 700;
       letter-spacing: 1px;
       font-size: 1.6rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: ">";
     }
 
     /* Card Modern */
@@ -27,8 +32,14 @@
       transform: translateY(-8px);
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
-    .card-title {
-      font-weight: 600;
+
+    /* Sidebar Glass Effect */
+    .sidebar {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     /* Buttons Gradient */
@@ -39,15 +50,6 @@
     }
     .btn-primary:hover {
       background: linear-gradient(135deg,#00c6ff,#007bff);
-    }
-
-    /* Sidebar Glass Effect */
-    .sidebar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
     }
 
     /* Tags */
@@ -82,51 +84,52 @@
     footer a:hover {
       color: #007bff;
     }
-
-    /* Animations */
-    [data-aos] {
-      opacity: 0;
-      transition-property: opacity, transform;
-    }
-    [data-aos].aos-animate {
-      opacity: 1;
-    }
-
   </style>
 @endpush
 
 @section('content')
+<!-- Breadcrumb -->
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Categories</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+    </ol>
+  </nav>
+</div>
+
+<!-- Category Header -->
+<div class="container mb-4">
+  <h1 class="mb-2">{{ $category->name }}</h1>
+</div>
+
 <!-- Main Content -->
 <div class="container my-5">
   <div class="row g-4">
-    <!-- Blog Posts -->
-    <div class="col-lg-8">
+    <!-- Posts List -->
+    <div class="col-lg-16">
       <div class="row g-4">
+        <!-- Post Card Example -->
         @forelse($posts as $post)
-          <!-- Post Card -->
           <div class="col-md-6" data-aos="fade-up">
             <div class="card shadow-sm">
               <img src="{{ asset('storage/'.$post->avatar) }}" class="card-img-top" alt="{{ $post->title }}">
               <div class="card-body">
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text text-muted">{{ \Carbon\Carbon::parse($post->publish_date)->format('M d, Y') }}</p>
-                <p class="card-text">{{ Str::limit(strip_tags($post->content), 100) }}</p>
+                <p class="card-text">{{ Str::limit(strip_tags($post->content), 150) }}</p>
                 <a href="{{ route('post.show', $post->slug) }}" class="btn btn-primary btn-sm">Read More</a>
               </div>
             </div>
           </div>
         @empty
-          <p class="text-muted">No published posts available.</p>
+          <p>No posts found in this category.</p>
         @endforelse
       </div>
 
       <!-- Pagination -->
       {{ $posts->links() }}
-    </div>
-
-    <!-- Sidebar -->
-    <div class="col-lg-4">
-      @include('partials.sidebar')
     </div>
   </div>
 </div>

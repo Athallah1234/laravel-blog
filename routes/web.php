@@ -11,6 +11,13 @@ use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\CategoryController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
+Route::get('/post/{slug}', [FrontController::class, 'show'])->name('post.show');
+Route::get('/archives', [FrontController::class, 'archives'])->name('archives.index');
+Route::get('/archive/{year}/{month}', [FrontController::class, 'archive'])->name('archive.show');
+Route::get('/categories', [FrontController::class, 'categories'])->name('categories.index');
+Route::get('/category/{slug}', [FrontController::class, 'category'])->name('category.show');
+Route::get('/tags', [FrontController::class, 'tags'])->name('tags.index');
+Route::get('/tag/{slug}', [FrontController::class, 'tag'])->name('tag.show');
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -19,6 +26,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 // Login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('dashboard')->group(function () {
