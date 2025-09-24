@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\CategoryController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
+Route::get('/about', [FrontController::class, 'about'])->name('about');
+Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::get('/post/{slug}', [FrontController::class, 'show'])->name('post.show');
 Route::get('/archives', [FrontController::class, 'archives'])->name('archives.index');
 Route::get('/archive/{year}/{month}', [FrontController::class, 'archive'])->name('archive.show');
@@ -29,7 +32,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:user,admin'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [IndexController::class, 'index'])->name('dashboard');
         Route::get('/settings', [IndexController::class, 'settings'])->name('dashboard.settings');

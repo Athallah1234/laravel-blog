@@ -141,3 +141,14 @@
 
     </div>
 @endsection
+
+@push('js')
+  <!-- CKEditor 4 -->
+  <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+  <script>
+    CKEDITOR.replace('content', {
+      height: 400,
+      removeButtons: 'PasteFromWord'
+    });
+  </script>
+@endpush

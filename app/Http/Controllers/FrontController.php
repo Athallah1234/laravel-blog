@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class FrontController extends Controller
 {
@@ -33,6 +34,27 @@ class FrontController extends Controller
         return view('index', compact('posts', 'categories', 'tags', 'recentPosts'));
     }
 
+    public function about()
+    {
+        // Ambil repositori GitHub (misalnya username: johndoe)
+        $username = 'Athallah1234';
+        $response = Http::get("https://api.github.com/users/{$username}/repos");
+
+        $repos = [];
+        if ($response->successful()) {
+            $repos = collect($response->json())
+                ->sortByDesc('stargazers_count') // urutkan repo dengan stars terbanyak
+                ->toArray();
+        }
+
+        return view('about', compact('repos'));
+    }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
     public function show($slug)
     {
         // Cari post berdasarkan slug
@@ -41,7 +63,36 @@ class FrontController extends Controller
             ->whereDate('publish_date', '<=', now())
             ->firstOrFail();
 
-        return view('show', compact('post'));
+        // Generate TOC
+        $toc = [];
+        $content = $post->content;
+
+        // Gunakan DOMDocument untuk parsing heading
+        libxml_use_internal_errors(true);
+        $dom = new \DOMDocument();
+        $dom->loadHTML('<?xml encoding="UTF-8">' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        $xpath = new \DOMXPath($dom);
+        $headings = $xpath->query('//h2 | //h3 | //h4');
+
+        foreach ($headings as $index => $heading) {
+            $text = $heading->textContent;
+            $id = 'heading-' . $index;
+
+            // Tambahkan id ke heading agar bisa diklik dari TOC
+            $heading->setAttribute('id', $id);
+
+            $toc[] = [
+                'tag' => $heading->nodeName,
+                'text' => $text,
+                'id' => $id,
+            ];
+        }
+
+        // Update konten post dengan heading yang sudah ada ID
+        $post->content = $dom->saveHTML();
+
+        return view('show', compact('post', 'toc'));
     }
 
     public function categories()

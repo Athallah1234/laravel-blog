@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->dateTime('publish_date')->nullable();
-            $table->longText('content');
+            $table->text('content');
             $table->unsignedBigInteger('views')->default(0);
             $table->timestamps();
         });

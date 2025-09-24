@@ -41,7 +41,7 @@
       <a href="{{ route('dashboard.settings') }}" class="{{ Route::is('dashboard.settings') ? 'active' : '' }}">
         <i class="fas fa-cog me-2"></i>Settings
       </a>
-      <form action="{{-- {{ route('logout') }} --}}" method="POST" class="mt-3">
+      <form action="{{ route('logout') }}" method="POST" class="mt-3">
         @csrf
         <button type="submit" class="btn btn-danger w-100 text-start">
           <i class="fas fa-sign-out-alt me-2"></i> Logout

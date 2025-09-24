@@ -123,7 +123,7 @@
       <hr>
       <div class="mb-3">
         <h5>Content:</h5>
-        {{ $post->content }}
+        {!! $post->content !!}
       </div>
 
       <div class="mt-4">

@@ -28,11 +28,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Source</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Category</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('tags.index') }}">Tags</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('archives.index') }}">Archive</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
       </ul>
       <!-- Auth Buttons -->
       <div class="d-flex ms-lg-3 mt-3 mt-lg-0">
@@ -49,7 +50,11 @@
               <span>{{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fa fa-home me-2"></i> Dashboard</a></li>
+              @if (Auth::user()->role === 'admin')
+                <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fa fa-home me-2"></i> Dashboard</a></li>
+              @else
+                <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-home me-2"></i> Profile</a></li>
+              @endif
               <li><hr class="dropdown-divider"></li>
               <li>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
