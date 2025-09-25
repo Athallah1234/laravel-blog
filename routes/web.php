@@ -32,6 +32,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+// Socialite routes
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:user,admin'])->group(function () {

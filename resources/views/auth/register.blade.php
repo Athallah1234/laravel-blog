@@ -84,7 +84,9 @@
   </form>
 
   <!-- Social Register -->
-  <button class="btn btn-danger btn-social"><i class="fab fa-google"></i> Register with Google</button>
+  <a href="{{ route('auth.google') }}" class="btn btn-danger btn-social">
+    <i class="fab fa-google"></i> Google
+  </a>
   <button class="btn btn-primary btn-social"><i class="fab fa-facebook-f"></i> Register with Facebook</button>
 
   <p class="text-center mt-3">

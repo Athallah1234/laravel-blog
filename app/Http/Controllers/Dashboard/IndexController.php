@@ -20,29 +20,17 @@ class IndexController extends Controller
         $tagCount = Tag::count();
 
         // Ambil 5 post terbaru beserta relasinya
-        $recentPosts = Post::with(['author', 'category'])
+        $recentPosts = Post::with(['user', 'category'])
                            ->latest()
                            ->take(5)
                            ->get();
-
-        $postsMonthly = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-                            ->groupBy('month')
-                            ->pluck('total', 'month')
-                            ->all();
-
-        $usersMonthly = User::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-                            ->groupBy('month')
-                            ->pluck('total', 'month')
-                            ->all();
 
         return view('dashboard.index', compact(
             'userCount', 
             'postCount', 
             'categoryCount', 
             'tagCount', 
-            'recentPosts', 
-            'postsMonthly', 
-            'usersMonthly'
+            'recentPosts'
         ));
     }
 

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -72,5 +73,34 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Anda telah logout.');
+    }
+
+    // 🔹 Google Redirect
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    // 🔹 Google Callback
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            $user = User::firstOrCreate(
+                ['email' => $googleUser->getEmail()],
+                [
+                    'name'     => $googleUser->getName(),
+                    'password' => Hash::make(uniqid()), // Password random karena login sosial
+                    'role'     => 'user',
+                ]
+            );
+
+            Auth::login($user, true);
+
+            return redirect()->route($user->role === 'admin' ? 'dashboard' : 'home');
+        } catch (\Exception $e) {
+            return redirect()->route('login')->withErrors(['email' => 'Login Google gagal.']);
+        }
     }
 }

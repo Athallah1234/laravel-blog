@@ -79,8 +79,10 @@
     <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
   </form>
 
-  <!-- Social Login -->
-  <button class="btn btn-danger btn-social"><i class="fab fa-google"></i> Login with Google</button>
+  <!-- Google -->
+  <a href="{{ route('auth.google') }}" class="btn btn-danger btn-social">
+    <i class="fab fa-google"></i> Google
+  </a>
   <button class="btn btn-primary btn-social"><i class="fab fa-facebook-f"></i> Login with Facebook</button>
 
   <p class="text-center mt-3">

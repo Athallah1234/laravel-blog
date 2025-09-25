@@ -19,7 +19,7 @@ class FrontController extends Controller
         $posts = Post::where('status', 'published')
             ->whereDate('publish_date', '<=', now())
             ->orderBy('publish_date', 'desc')
-            ->paginate(6); // pagination
+            ->get();
 
         // Categories untuk sidebar
         $categories = Category::take(5)->get();

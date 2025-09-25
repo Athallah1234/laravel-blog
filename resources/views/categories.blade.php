@@ -88,7 +88,6 @@
     <div class="col-lg-16">
       <div class="row g-4">
         <!-- Category Card Example -->
-        @foreach($categories as $category)
         <div class="mb-4" data-aos="fade-up">
           <div class="category-cloud">
             @foreach($categories as $category)
@@ -96,7 +95,6 @@
             @endforeach
           </div>
         </div>
-        @endforeach
       </div>
     </div>
   </div>
