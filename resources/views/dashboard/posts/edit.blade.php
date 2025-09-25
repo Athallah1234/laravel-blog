@@ -148,7 +148,6 @@
   <script>
     CKEDITOR.replace('content', {
       height: 400,
-      removeButtons: 'PasteFromWord'
     });
   </script>
 @endpush
