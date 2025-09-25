@@ -35,6 +35,9 @@
       <a href="{{ route('dashboard.ebooks.index') }}" class="{{ Route::is('dashboard.ebooks.*') ? 'active' : '' }}">
         <i class="fas fa-download me-2"></i>Ebooks / Downloads
       </a>
+      <a href="{{ route('dashboard.contact-messages.index') }}" class="{{ Route::is('dashboard.contact-messages.*') ? 'active' : '' }}">
+        <i class="fas fa-envelope me-2"></i>Contacts
+      </a>
       <a href="{{ route('dashboard.logs') }}" class="{{ Route::is('dashboard.logs') ? 'active' : '' }}">
         <i class="fas fa-history me-2"></i>Logs
       </a>
@@ -59,36 +62,6 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 800, once: true });
-
-  // Chart.js example
-  const postsChart = new Chart(document.getElementById('postsChart'), {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-      datasets: [{
-        label: 'Posts',
-        data: [12, 19, 14, 21, 18, 25, 22],
-        borderColor: '#007bff',
-        backgroundColor: 'rgba(0,123,255,0.2)',
-        fill: true,
-        tension: 0.3
-      }]
-    },
-    options: { responsive: true, plugins: { legend: { display: false } } }
-  });
-
-  const usersChart = new Chart(document.getElementById('usersChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-      datasets: [{
-        label: 'Users',
-        data: [5, 8, 6, 10, 7, 12, 9],
-        backgroundColor: '#28a745'
-      }]
-    },
-    options: { responsive: true, plugins: { legend: { display: false } } }
-  });
 </script>
 
 </body>

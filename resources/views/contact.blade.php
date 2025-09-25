@@ -106,22 +106,31 @@
       <!-- Contact Form -->
       <div class="glass-card" data-aos="fade-up">
         <h3 class="mb-4">Send a Message</h3>
-        <form>
+        @if(session('success'))
+          <p style="color:green;">{{ session('success') }}</p>
+        @endif
+        @if ($errors->any())
+          <div style="color:red;">
+            <ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+          </div>
+        @endif
+        <form action="{{ route('contact.send') }}" method="POST">
+          @csrf
           <div class="mb-3">
             <label for="name" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Your Name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" placeholder="Your Email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
           </div>
           <div class="mb-3">
             <label for="subject" class="form-label">Subject</label>
-            <input type="text" class="form-control" id="subject" placeholder="Subject">
+            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
           </div>
           <div class="mb-3">
             <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="6" placeholder="Your Message"></textarea>
+            <textarea class="form-control" id="message" name="message" rows="6" placeholder="Your Message"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Send Message</button>
         </form>

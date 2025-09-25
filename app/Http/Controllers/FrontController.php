@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
+use App\Mail\ContactMail;
 use Illuminate\Http\Request;
+use App\Models\ContactMessage;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class FrontController extends Controller
 {
@@ -36,14 +39,19 @@ class FrontController extends Controller
 
     public function about()
     {
-        // Ambil repositori GitHub (misalnya username: johndoe)
+        // Ambil repositori GitHub (misalnya username: Athallah1234)
         $username = 'Athallah1234';
         $response = Http::get("https://api.github.com/users/{$username}/repos");
 
         $repos = [];
         if ($response->successful()) {
             $repos = collect($response->json())
+                ->filter(function ($repo) {
+                    // hanya ambil repositori yang punya bahasa (tidak null atau 'N/A')
+                    return !empty($repo['language']) && $repo['language'] !== 'N/A';
+                })
                 ->sortByDesc('stargazers_count') // urutkan repo dengan stars terbanyak
+                ->values() // reset index array biar rapi
                 ->toArray();
         }
 
@@ -53,6 +61,31 @@ class FrontController extends Controller
     public function contact()
     {
         return view('contact');
+    }
+
+    public function sendContact(Request $request)
+    {
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $data = [
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ];
+
+        // Simpan ke database
+        ContactMessage::create($data);
+
+        // Kirim email ke admin
+        Mail::to(env('MAIL_FROM_ADDRESS'))->queue(new ContactMail($data));
+
+        return redirect()->back()->with('success', 'Pesan berhasil dikirim. Terima kasih sudah menghubungi kami!');
     }
 
     public function show($slug)

@@ -137,7 +137,7 @@
                   ⭐ {{ $repo['stargazers_count'] }}
                 </span>
                 <span class="badge bg-secondary">
-                  {{ $repo['language'] ?? 'N/A' }}
+                  {{ $repo['language'] }}
                 </span>
               </div>
             </div>
@@ -170,12 +170,16 @@
         <p>Bootstrap</p>
       </div>
       <div class="skill-item">
-        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/laravel-line.svg" alt="Laravel">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg" alt="Laravel">
         <p>Laravel</p>
       </div>
       <div class="skill-item">
         <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python">
         <p>Python</p>
+      </div>
+      <div class="skill-item">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/julia/julia-original.svg" alt="Python">
+        <p>Julia</p>
       </div>
     </div>
   </div>

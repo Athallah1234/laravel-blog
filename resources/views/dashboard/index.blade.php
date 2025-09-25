@@ -79,25 +79,25 @@
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
           <h5>Total Users</h5>
-          <h3>1,245</h3>
+          <h3>{{ $userCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
           <h5>Total Posts</h5>
-          <h3>845</h3>
+          <h3>{{ $postCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
           <h5>Total Categories</h5>
-          <h3>42</h3>
+          <h3>{{ $categoryCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
           <h5>Total Tags</h5>
-          <h3>128</h3>
+          <h3>{{ $tagCount }}</h3>
         </div>
       </div>
     </div>
@@ -133,33 +133,59 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>How to Build a Modern Blog</td>
-            <td>John Doe</td>
-            <td>Web Development</td>
-            <td>1200</td>
-            <td><span class="badge bg-success">Published</span></td>
-            <td><button class="btn btn-sm btn-primary">Edit</button></td>
-          </tr>
-          <tr>
-            <td>Bootstrap 5 Tips & Tricks</td>
-            <td>Jane Smith</td>
-            <td>UI/UX</td>
-            <td>850</td>
-            <td><span class="badge bg-warning">Draft</span></td>
-            <td><button class="btn btn-sm btn-primary">Edit</button></td>
-          </tr>
-          <tr>
-            <td>Responsive Design Best Practices</td>
-            <td>John Doe</td>
-            <td>Design</td>
-            <td>950</td>
-            <td><span class="badge bg-success">Published</span></td>
-            <td><button class="btn btn-sm btn-primary">Edit</button></td>
-          </tr>
+          @foreach($recentPosts as $post)
+            <tr>
+              <td>{{ $post->title }}</td>
+              <td>{{ $post->author->name ?? 'Unknown' }}</td>
+              <td>{{ $post->category->name ?? '-' }}</td>
+              <td>{{ $post->views ?? 0 }}</td>
+              <td>
+                @if($post->status === 'published')
+                  <span class="badge bg-success">Published</span>
+                @else
+                  <span class="badge bg-warning">Draft</span>
+                @endif
+              </td>
+              <td><a href="{{ route('dashboard.posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Edit</a></td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
     </div>
 
   </div>
 @endsection
+
+@push('js')
+<script>
+  // Chart.js example
+  const postsChart = new Chart(document.getElementById('postsChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+      datasets: [{
+        label: 'Posts',
+        data: [12, 19, 14, 21, 18, 25, 22],
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0,123,255,0.2)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+
+  const usersChart = new Chart(document.getElementById('usersChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+      datasets: [{
+        label: 'Users',
+        data: [5, 8, 6, 10, 7, 12, 9],
+        backgroundColor: '#28a745'
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+</script>
+@endpush

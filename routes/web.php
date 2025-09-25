@@ -10,10 +10,12 @@ use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\EbookController;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ContactMessageController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+Route::post('/contact/send', [FrontController::class, 'sendContact'])->name('contact.send');
 Route::get('/post/{slug}', [FrontController::class, 'show'])->name('post.show');
 Route::get('/archives', [FrontController::class, 'archives'])->name('archives.index');
 Route::get('/archive/{year}/{month}', [FrontController::class, 'archive'])->name('archive.show');
@@ -80,6 +82,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::delete('/ebooks/{id}', [EbookController::class, 'destroy'])->name('dashboard.ebooks.destroy');
         // Logs
         Route::get('/logs', [IndexController::class, 'logs'])->name('dashboard.logs');
+        // Contacts
+        Route::get('/contact-messages', [ContactMessageController::class, 'index'])->name('dashboard.contact-messages.index');
+        Route::get('/contact-messages/{id}', [ContactMessageController::class, 'show'])->name('dashboard.contact-messages.show');
+        Route::patch('contact-messages/{id}/mark-as-read', [ContactMessageController::class, 'markAsRead'])->name('dashboard.contact-messages.markAsRead');
     });
 });
 
