@@ -76,7 +76,7 @@ Project ini cocok untuk **personal blog, company blog, atau blog komunitas** yan
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/Athallah1234/laravel-blog.git
-cd modernblog
+cd laravel-blog
 ```
 
 ### 2. Install Dependencies
