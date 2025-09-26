@@ -16,6 +16,9 @@ Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::post('/contact/send', [FrontController::class, 'sendContact'])->name('contact.send');
+Route::get('/privacy-policy', [FrontController::class, 'privacy'])->name('privacy');
+Route::get('/terms-conditions', [FrontController::class, 'term'])->name('term');
+Route::get('/disclaimer', [FrontController::class, 'disclaimer'])->name('disclaimer');
 Route::get('/post/{slug}', [FrontController::class, 'show'])->name('post.show');
 Route::get('/archives', [FrontController::class, 'archives'])->name('archives.index');
 Route::get('/archive/{year}/{month}', [FrontController::class, 'archive'])->name('archive.show');
@@ -40,6 +43,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:user,admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {

@@ -33,15 +33,6 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
 
-    /* Sidebar Glass Effect */
-    .sidebar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
     /* Buttons Gradient */
     .btn-primary {
       background: linear-gradient(135deg,#007bff,#00c6ff);
@@ -87,7 +78,7 @@
 <div class="container mt-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">Contact</li>
     </ol>
   </nav>

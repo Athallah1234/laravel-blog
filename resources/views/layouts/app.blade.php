@@ -28,7 +28,6 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Source</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Category</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('tags.index') }}">Tags</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('archives.index') }}">Archive</a></li>
@@ -45,12 +44,13 @@
           <!-- Jika sudah login: Dropdown User -->
           <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{{ Auth::user()->avatar ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&background=0D8ABC&color=fff' }}" 
+              <img src="{{ asset('storage/'.Auth::user()->avatar) ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&background=0D8ABC&color=fff' }}" 
                    alt="Avatar" class="user-avatar me-2">
               <span>{{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
               @if (Auth::user()->role === 'admin')
+                <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-home me-2"></i> Profile</a></li>
                 <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fa fa-home me-2"></i> Dashboard</a></li>
               @else
                 <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-home me-2"></i> Profile</a></li>
@@ -94,9 +94,9 @@
       <div class="col-md-3 mb-3">
         <h5>Legal</h5>
         <ul class="list-unstyled">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">Disclaimer</a></li>
+          <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+          <li><a href="{{ route('term') }}">Terms & Conditions</a></li>
+          <li><a href="{{ route('disclaimer') }}">Disclaimer</a></li>
         </ul>
       </div>
     </div>

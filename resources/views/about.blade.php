@@ -44,6 +44,38 @@
       color: #6c757d;
     }
 
+    /* Project Cards */
+    .project-card {
+      border: none;
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+    .project-card .card-body {
+      padding: 1.5rem;
+    }
+    .project-card .card-title a {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #212529;
+    }
+    .project-card .card-title a:hover {
+      color: #0d6efd;
+    }
+    .project-card .card-text {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    .project-card .badge {
+      font-size: 0.75rem;
+      padding: 0.5em 0.75em;
+      border-radius: 0.75rem;
+    }
+
     /* Skills Logo */
     .skills-logos {
       display: flex;
@@ -96,7 +128,7 @@
 <div class="container mt-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">About</li>
     </ol>
   </nav>
@@ -122,7 +154,7 @@
     <div class="row">
       @forelse($repos as $repo)
         <div class="col-md-4 mb-4">
-          <div class="card shadow-sm h-100">
+          <div class="card shadow-sm h-100 project-card">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">
                 <a href="{{ $repo['html_url'] }}" target="_blank" class="text-decoration-none">

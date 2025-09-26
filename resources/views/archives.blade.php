@@ -42,15 +42,6 @@
       text-decoration: underline;
     }
 
-    /* Sidebar Glass Effect */
-    .sidebar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
     /* Footer */
     footer {
       background: #f8f9fa;
@@ -82,7 +73,6 @@
 <!-- Page Header -->
 <div class="container mb-4">
   <h1 class="mb-2">Archives</h1>
-  <p class="text-muted">Jelajahi daftar arsip artikel berdasarkan bulan dan tahun publikasi.</p>
 </div>
 
 <!-- Main Content -->

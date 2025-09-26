@@ -14,6 +14,11 @@
       font-size: 1.6rem;
     }
 
+    /* Breadcrumb */
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: ">";
+    }
+
     /* Card Modern */
     .card {
       border: none;
@@ -28,6 +33,16 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
 
+    /* Avatar */
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
     /* Buttons Gradient */
     .btn-primary {
       background: linear-gradient(135deg,#007bff,#00c6ff);
@@ -38,168 +53,85 @@
       background: linear-gradient(135deg,#00c6ff,#007bff);
     }
 
-    /* Hero Section */
-    .hero {
-      background: url('https://source.unsplash.com/1600x600/?technology,abstract') no-repeat center center/cover;
-      color: #fff;
-      padding: 6rem 0;
-      text-align: center;
-      border-radius: 0 0 2rem 2rem;
+    /* Social Links */
+    .follow-me {
+      margin-top: 1.5rem;
     }
-    .hero h1 {
-      font-weight: 700;
-      font-size: 3rem;
-    }
-
-    /* Profile Image */
-    .profile-img {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid #fff;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    /* Skills */
-    .skill-bar {
-      background: #e9ecef;
-      border-radius: 1rem;
-      overflow: hidden;
-      height: 10px;
-    }
-    .skill-bar-fill {
-      height: 100%;
-      background: linear-gradient(135deg,#007bff,#00c6ff);
-    }
-
-    /* Timeline */
-    .timeline {
-      position: relative;
-      margin: 2rem 0;
-      padding-left: 30px;
-      border-left: 3px solid #007bff;
-    }
-    .timeline-item {
-      margin-bottom: 2rem;
-    }
-    .timeline-item h6 {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-    .timeline-item span {
-      font-size: 0.9rem;
-      color: #6c757d;
-    }
-
-    /* Footer */
-    footer {
-      background: #f8f9fa;
+    .follow-me a {
+      display: inline-block;
+      margin: 0 8px;
+      font-size: 1.2rem;
       color: #495057;
-      padding: 4rem 0 2rem;
-    }
-    footer a {
-      color: #6c757d;
-      text-decoration: none;
       transition: 0.3s;
     }
-    footer a:hover {
+    .follow-me a:hover {
       color: #007bff;
-    }
-
-    /* Animations */
-    [data-aos] {
-      opacity: 0;
-      transition-property: opacity, transform;
-    }
-    [data-aos].aos-animate {
-      opacity: 1;
+      transform: translateY(-2px);
     }
   </style>
 @endpush
 
 @section('content')
-<!-- Hero -->
-<section class="hero">
-  <div class="container">
-    <img src="https://source.unsplash.com/200x200/?portrait" alt="Profile Image" class="profile-img mb-3">
-    <h1 data-aos="fade-up">John Doe</h1>
-    <p data-aos="fade-up" data-aos-delay="100">Web Developer | UI/UX Enthusiast | Tech Blogger</p>
-    <a href="#contact" class="btn btn-primary mt-3" data-aos="fade-up" data-aos-delay="200">Hire Me</a>
-  </div>
-</section>
+<!-- Breadcrumb -->
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    </ol>
+  </nav>
+</div>
 
-<!-- Profile Content -->
+<!-- Profile Header -->
+<div class="container mb-4">
+  <h1 class="mb-2">Profile</h1>
+</div>
+
+<!-- Profile Card -->
 <div class="container my-5">
-  <div class="row g-4">
-    <!-- About -->
+  <div class="row justify-content-center">
     <div class="col-lg-8" data-aos="fade-up">
-      <div class="card p-4 shadow-sm">
-        <h4>About Me</h4>
-        <p>Hello! I'm John Doe, a passionate web developer with over 5 years of experience building responsive websites and modern web applications. I love writing clean code, designing intuitive interfaces, and sharing knowledge through blogging.</p>
-      </div>
+      <div class="card shadow-sm text-center p-4">
+        <!-- Avatar -->
+        <img src="{{ asset('storage/'.$user->avatar ?? 'default-avatar.png') }}" 
+             alt="{{ $user->name }}" class="profile-avatar mx-auto">
 
-      <!-- Skills -->
-      <div class="card p-4 mt-4 shadow-sm">
-        <h4>Skills</h4>
-        <p class="mb-1">HTML & CSS</p>
-        <div class="skill-bar mb-3"><div class="skill-bar-fill" style="width:90%"></div></div>
-        <p class="mb-1">JavaScript</p>
-        <div class="skill-bar mb-3"><div class="skill-bar-fill" style="width:85%"></div></div>
-        <p class="mb-1">PHP & Laravel</p>
-        <div class="skill-bar mb-3"><div class="skill-bar-fill" style="width:80%"></div></div>
-        <p class="mb-1">React.js</p>
-        <div class="skill-bar mb-3"><div class="skill-bar-fill" style="width:75%"></div></div>
-      </div>
-    </div>
+        <div class="card-body mt-3">
+          <h3 class="card-title">{{ $user->name }}</h3>
+          <p class="text-muted">{{ $user->email }}</p>
+          <p class="card-text">
+            {{ $user->bio ?? 'Belum ada bio.' }}
+          </p>
 
-    <!-- Sidebar -->
-    <div class="col-lg-4" data-aos="fade-left">
-      <!-- Contact Info -->
-      <div class="card p-4 shadow-sm mb-4">
-        <h5>Contact Info</h5>
-        <p><i class="fa fa-envelope me-2"></i> john.doe@email.com</p>
-        <p><i class="fa fa-phone me-2"></i> +123 456 789</p>
-        <p><i class="fa fa-map-marker-alt me-2"></i> San Francisco, CA</p>
-      </div>
+          <!-- Action Buttons -->
+          <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm me-2">Edit Profile</a>
+          <a href="{{ route('logout') }}" 
+             onclick="event.preventDefault();document.getElementById('logout-form').submit();" 
+             class="btn btn-outline-secondary btn-sm">Logout</a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+          </form>
 
-      <!-- Social -->
-      <div class="card p-4 shadow-sm mb-4">
-        <h5>Follow Me</h5>
-        <a href="#" class="me-3"><i class="fab fa-facebook fa-lg"></i></a>
-        <a href="#" class="me-3"><i class="fab fa-twitter fa-lg"></i></a>
-        <a href="#" class="me-3"><i class="fab fa-instagram fa-lg"></i></a>
-        <a href="#"><i class="fab fa-linkedin fa-lg"></i></a>
-      </div>
+          <!-- Follow Me -->
+          <div class="follow-me">
+            <h6 class="mt-4 mb-2">Follow Me</h6>
+            @if($user->twitter)
+              <a href="{{ $user->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+            @endif
+            @if($user->instagram)
+              <a href="{{ $user->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+            @endif
+            @if($user->github)
+              <a href="{{ $user->github }}" target="_blank"><i class="fab fa-github"></i></a>
+            @endif
+            @if($user->linkedin)
+              <a href="{{ $user->linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+            @endif
+          </div>
 
-      <!-- Download CV -->
-      <div class="card p-4 shadow-sm">
-        <h5>Download CV</h5>
-        <a href="#" class="btn btn-primary btn-sm mt-2 w-100"><i class="fa fa-download me-2"></i>Download</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Contact Section -->
-<section id="contact" class="my-5">
-  <div class="container">
-    <div class="card p-4 shadow-sm" data-aos="fade-up">
-      <h4>Contact Me</h4>
-      <p>Feel free to reach out via this form:</p>
-      <form>
-        <div class="mb-3">
-          <input type="text" class="form-control" placeholder="Your Name">
-        </div>
-        <div class="mb-3">
-          <input type="email" class="form-control" placeholder="Your Email">
-        </div>
-        <div class="mb-3">
-          <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Send Message</button>
-      </form>
-    </div>
-  </div>
-</section>
 @endsection

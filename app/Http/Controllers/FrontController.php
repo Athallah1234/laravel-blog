@@ -88,6 +88,21 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Pesan berhasil dikirim. Terima kasih sudah menghubungi kami!');
     }
 
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
+    public function term()
+    {
+        return view('term');
+    }
+
+    public function disclaimer()
+    {
+        return view('disclaimer');
+    }
+
     public function show($slug)
     {
         // Cari post berdasarkan slug

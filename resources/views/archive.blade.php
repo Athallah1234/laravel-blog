@@ -28,13 +28,6 @@
       transform: translateY(-8px);
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
-    .sidebar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
     .btn-primary {
       background: linear-gradient(135deg,#007bff,#00c6ff);
       border: none;

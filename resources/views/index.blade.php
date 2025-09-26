@@ -39,7 +39,7 @@
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(12px);
     border-radius: 1.5rem;
-    padding: 1.5rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
   }
 
