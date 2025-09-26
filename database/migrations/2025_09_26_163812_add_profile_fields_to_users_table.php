@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->text('bio')->nullable()->after('avatar');
-            $table->string('twitter')->nullable()->after('bio');
-            $table->string('instagram')->nullable()->after('twitter');
-            $table->string('github')->nullable()->after('instagram');
-            $table->string('linkedin')->nullable()->after('github');
         });
     }
 

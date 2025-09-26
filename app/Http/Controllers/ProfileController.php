@@ -27,17 +27,16 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Validasi input
-        $request->validate([
+        $data = $request->validate([
             'name'  => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'bio'   => 'nullable|string|max:500',
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'twitter' => 'nullable|url',
+            'instagram' => 'nullable|url',
+            'github' => 'nullable|url',
+            'linkedin' => 'nullable|url',
         ]);
-
-        // Update data
-        $user->name  = $request->name;
-        $user->email = $request->email;
-        $user->bio   = $request->bio;
 
         // Upload avatar jika ada
         if ($request->hasFile('avatar')) {
@@ -45,7 +44,7 @@ class ProfileController extends Controller
             $user->avatar = $path;
         }
 
-        $user->save();
+        $user->update($data);
 
         return redirect()->route('profile')->with('success', 'Profile berhasil diperbarui!');
     }
