@@ -90,7 +90,7 @@
           <div class="col-md-6 mb-2"><span class="detail-label">Publish Date:</span> {{ $ebook->publish_date }}</div>
           <div class="col-md-6 mb-2"><span class="detail-label">Views:</span> {{ $ebook->views }}</div>
           <div class="col-md-6 mb-2"><span class="detail-label">File:</span> <a href="{{ asset('storage/'.$ebook->file_upload) }}" target="_blank">Download PDF</a></div>
-          <div class="col-12 mb-2"><span class="detail-label">Description:</span> {!! nl2br(e($ebook->description)) !!}</div>
+          <div class="col-12 mb-2"><span class="detail-label">Description:</span> {!! ($ebook->description) !!}</div>
         </div>
 
         <div class="mt-4">

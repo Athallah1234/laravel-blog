@@ -120,8 +120,8 @@
                 <td>{{ $log->user->name ?? '-' }}</td>
                 <td>{{ $log->action }}</td>
                 <td>{{ $log->ip_address }}</td>
-                <td>{{ $log->device }}</td>
-                <td>{{ $log->created_at }}</td>
+                <td>{{ $log->device_browser }}</td>
+                <td>{{ $log->logged_at }}</td>
             </tr>
             @endforeach
           </tbody>
