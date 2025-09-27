@@ -8,10 +8,23 @@ use App\Http\Controllers\Controller;
 
 class ContactMessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $messages = ContactMessage::latest()->paginate(10);
-        return view('dashboard.contact_messages.index', compact('messages'));
+        $search = $request->input('search');
+
+        $messages = ContactMessage::when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%")
+                    ->orWhere('message', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        // biar query search ikut ke pagination
+        $messages->appends(['search' => $search]);
+
+        return view('dashboard.contact_messages.index', compact('messages', 'search'));
     }
 
     public function show($id)

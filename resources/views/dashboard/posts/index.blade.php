@@ -88,7 +88,13 @@
         @endif
 
         <div class="d-flex gap-2">
-          <input type="text" class="form-control w-50" placeholder="Search posts...">
+          <form action="{{ route('dashboard.posts.index') }}" method="GET" class="d-flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                  class="form-control" placeholder="Search posts...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
 
           <!-- Tombol Create Post -->
           <a href="{{ route('dashboard.posts.create') }}" class="btn btn-success">
@@ -105,6 +111,7 @@
             <th>Slug</th>
             <th>Category</th>
             <th>Tags</th>
+            <th>Author</th>
             <th>Status</th>
             <th>Publish Date</th>
             <th>Actions</th>
@@ -126,6 +133,7 @@
                   <span class="text-muted">-</span>
                 @endif
               </td>
+              <td>{{ $post->user->name }}</td>
               <td>
                 @if ($post->status == 'published')
                   <span class="badge bg-success badge-status">Published</span>

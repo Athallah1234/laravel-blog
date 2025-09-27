@@ -12,10 +12,28 @@ use Illuminate\Support\Facades\Storage;
 
 class EbookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ebooks = Ebook::with('category','tags')->latest()->paginate(10);
-        return view('dashboard.ebooks.index', compact('ebooks'));
+        $search = $request->input('search');
+
+        $ebooks = Ebook::with('category','tags')
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tags', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            })
+            ->latest()
+            ->paginate(10);
+
+        // biar query search nempel di pagination
+        $ebooks->appends(['search' => $search]);
+
+        return view('dashboard.ebooks.index', compact('ebooks', 'search'));
     }
 
     public function create()

@@ -11,10 +11,24 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(10);
-        return view('dashboard.users.index', compact('users'));
+        $search = $request->input('search');
+
+        $users = User::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        // biar query search ikut di pagination link
+        $users->appends(['search' => $search]);
+
+        return view('dashboard.users.index', compact('users', 'search'));
     }
 
     public function create()

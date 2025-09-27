@@ -9,10 +9,22 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::latest()->paginate(10);
-        return view('dashboard.categories.index', compact('categories'));
+        $search = $request->input('search');
+
+        $categories = Category::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        // biar query search tetap nempel saat pindah halaman
+        $categories->appends(['search' => $search]);
+
+        return view('dashboard.categories.index', compact('categories', 'search'));
     }
 
     public function create()

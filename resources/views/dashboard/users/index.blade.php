@@ -88,7 +88,13 @@
         @endif
 
         <div class="d-flex gap-2">
-          <input type="text" class="form-control w-50" placeholder="Search users...">
+          <form action="{{ route('dashboard.users.index') }}" method="GET" class="d-flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                  class="form-control" placeholder="Search users...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
 
           <!-- Tombol Create User -->
           <a href="{{ route('dashboard.users.create') }}" class="btn btn-success">

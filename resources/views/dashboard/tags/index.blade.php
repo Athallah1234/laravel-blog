@@ -75,7 +75,13 @@
         @endif
 
         <div class="d-flex gap-2">
-          <input type="text" class="form-control w-50" placeholder="Search tags...">
+          <form action="{{ route('dashboard.tags.index') }}" method="GET" class="d-flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                  class="form-control" placeholder="Search tags...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
 
           <!-- Tombol Create Tag -->
           <a href="{{ route('dashboard.tags.create') }}" class="btn btn-success">

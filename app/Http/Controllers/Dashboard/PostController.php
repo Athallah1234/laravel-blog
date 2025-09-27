@@ -12,10 +12,32 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('category', 'tags')->latest()->paginate(10);
-        return view('dashboard.posts.index', compact('posts'));
+        $search = $request->input('search');
+
+        $posts = Post::with(['category', 'tags', 'user'])
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tags', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            })
+            ->latest()
+            ->paginate(10);
+
+        // supaya query search tetap ada saat pindah halaman
+        $posts->appends(['search' => $search]);
+
+        return view('dashboard.posts.index', compact('posts', 'search'));
     }
 
     public function create()
@@ -52,6 +74,7 @@ class PostController extends Controller
             'publish_date' => $request->publish_date,
             'content'      => $request->content,
             'avatar'       => $avatar,
+            'user_id'      => auth()->id(),
         ]);
 
         if ($request->tags) {
@@ -108,6 +131,7 @@ class PostController extends Controller
             'publish_date' => $request->publish_date,
             'content'      => $request->content,
             'avatar'       => $avatar,
+            'user_id'      => auth()->id(),
         ]);
 
         $post->tags()->sync($request->tags ?? []);

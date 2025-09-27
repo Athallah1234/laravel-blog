@@ -78,25 +78,25 @@
     <div class="row g-4 mb-4">
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
-          <h5>Total Users</h5>
+          <h5>Users</h5>
           <h3>{{ $userCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
-          <h5>Total Posts</h5>
+          <h5>Posts</h5>
           <h3>{{ $postCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
-          <h5>Total Categories</h5>
+          <h5>Categories</h5>
           <h3>{{ $categoryCount }}</h3>
         </div>
       </div>
       <div class="col-md-3" data-aos="fade-up">
         <div class="card-stats text-center">
-          <h5>Total Tags</h5>
+          <h5>Tags</h5>
           <h3>{{ $tagCount }}</h3>
         </div>
       </div>
@@ -118,39 +118,65 @@
       </div>
     </div>
 
-    <!-- Recent Posts Table -->
-    <div class="table-card" data-aos="fade-up">
-      <h5>Recent Posts</h5>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Views</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($recentPosts as $post)
-            <tr>
-              <td>{{ $post->title }}</td>
-              <td>{{ $post->author->name ?? 'Unknown' }}</td>
-              <td>{{ $post->category->name ?? '-' }}</td>
-              <td>{{ $post->views ?? 0 }}</td>
-              <td>
-                @if($post->status === 'published')
-                  <span class="badge bg-success">Published</span>
-                @else
-                  <span class="badge bg-warning">Draft</span>
-                @endif
-              </td>
-              <td><a href="{{ route('dashboard.posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Edit</a></td>
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
+    <!-- Recent Posts & Latest Users Section -->
+    <div class="row">
+      <!-- Recent Posts -->
+      <div class="col-md-8" data-aos="fade-up">
+        <div class="table-card">
+          <h5>Recent Posts</h5>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Views</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($recentPosts as $post)
+                <tr>
+                  <td>{{ $post->title }}</td>
+                  <td>{{ $post->user->name ?? 'Unknown' }}</td>
+                  <td>{{ $post->category->name ?? '-' }}</td>
+                  <td>{{ $post->views ?? 0 }}</td>
+                  <td>
+                    @if($post->status === 'published')
+                      <span class="badge bg-success">Published</span>
+                    @else
+                      <span class="badge bg-warning">Draft</span>
+                    @endif
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Latest Users -->
+      <div class="col-md-4" data-aos="fade-up">
+        <div class="table-card">
+          <h5>Latest Users</h5>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($latestUsers as $user)
+                <tr>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->created_at->diffForHumans() }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -158,14 +184,13 @@
 
 @push('js')
 <script>
-  // Chart.js example
   const postsChart = new Chart(document.getElementById('postsChart'), {
     type: 'line',
     data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+      labels: @json($months),
       datasets: [{
         label: 'Posts',
-        data: [12, 19, 14, 21, 18, 25, 22],
+        data: @json($postsData),
         borderColor: '#007bff',
         backgroundColor: 'rgba(0,123,255,0.2)',
         fill: true,
@@ -178,10 +203,10 @@
   const usersChart = new Chart(document.getElementById('usersChart'), {
     type: 'bar',
     data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+      labels: @json($months),
       datasets: [{
         label: 'Users',
-        data: [5, 8, 6, 10, 7, 12, 9],
+        data: @json($usersData),
         backgroundColor: '#28a745'
       }]
     },

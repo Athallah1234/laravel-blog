@@ -74,7 +74,13 @@
   <div class="table-card" data-aos="fade-up">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h5>List of Contact Messages</h5>
-      <input type="text" class="form-control w-25" placeholder="Search messages...">
+      <form action="{{ route('dashboard.contact-messages.index') }}" method="GET" class="d-flex gap-2">
+        <input type="text" name="search" value="{{ request('search') }}" 
+              class="form-control w-100" placeholder="Search messages...">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
     </div>
 
     <table class="table table-hover align-middle">

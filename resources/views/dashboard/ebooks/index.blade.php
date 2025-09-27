@@ -88,7 +88,13 @@
         @endif
 
         <div class="d-flex gap-2">
-          <input type="text" class="form-control w-50" placeholder="Search ebooks...">
+          <form action="{{ route('dashboard.ebooks.index') }}" method="GET" class="d-flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                  class="form-control" placeholder="Search ebooks...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
 
           <!-- Tombol Create Ebook -->
           <a href="{{ route('dashboard.ebooks.create') }}" class="btn btn-success">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Tag;
+use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class Post extends Model
         'publish_date',
         'content',
         'views',
+        'user_id',
     ];
 
     protected $dates = ['publish_date'];
@@ -44,9 +46,8 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-
 
     public function category()
     {

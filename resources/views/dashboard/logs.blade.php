@@ -77,22 +77,28 @@
     <!-- Logs Card -->
     <div class="logs-card" data-aos="fade-up">
       <!-- Filter & Search -->
-      <div class="row mb-3">
-        <div class="col-md-6 mb-2">
-          <input type="text" class="form-control" id="searchLogs" placeholder="Search logs...">
+      <form action="{{ route('dashboard.logs') }}" method="GET" class="row mb-3 g-2">
+        <div class="col-md-6">
+          <input type="text" name="search" value="{{ request('search') }}" 
+                class="form-control" placeholder="Search logs...">
         </div>
-        <div class="col-md-6 mb-2">
-          <select class="form-select" id="filterLogs">
+        <div class="col-md-4">
+          <select name="filter" class="form-select">
             <option value="">Filter by Action</option>
-            <option value="login">Login</option>
-            <option value="logout">Logout</option>
-            <option value="create">Create</option>
-            <option value="update">Update</option>
-            <option value="delete">Delete</option>
-            <option value="error">Error</option>
+            <option value="login" {{ request('filter') == 'login' ? 'selected' : '' }}>Login</option>
+            <option value="logout" {{ request('filter') == 'logout' ? 'selected' : '' }}>Logout</option>
+            <option value="create" {{ request('filter') == 'create' ? 'selected' : '' }}>Create</option>
+            <option value="update" {{ request('filter') == 'update' ? 'selected' : '' }}>Update</option>
+            <option value="delete" {{ request('filter') == 'delete' ? 'selected' : '' }}>Delete</option>
+            <option value="error" {{ request('filter') == 'error' ? 'selected' : '' }}>Error</option>
           </select>
         </div>
-      </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-search"></i> Search
+          </button>
+        </div>
+      </form>
 
       <!-- Logs Table -->
       <div class="table-responsive">

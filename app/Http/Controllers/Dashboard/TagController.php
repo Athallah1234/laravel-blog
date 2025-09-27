@@ -9,10 +9,22 @@ use App\Http\Controllers\Controller;
 
 class TagController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tags = Tag::latest()->paginate(10);
-        return view('dashboard.tags.index', compact('tags'));
+        $search = $request->input('search');
+
+        $tags = Tag::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        // biar query search tetap ada di pagination link
+        $tags->appends(['search' => $search]);
+
+        return view('dashboard.tags.index', compact('tags', 'search'));
     }
 
     public function create()

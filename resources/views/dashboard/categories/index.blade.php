@@ -75,7 +75,13 @@
         @endif
 
         <div class="d-flex gap-2">
-          <input type="text" class="form-control w-50" placeholder="Search categories...">
+          <form action="{{ route('dashboard.categories.index') }}" method="GET" class="d-flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                  class="form-control" placeholder="Search categories...">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
 
           <!-- Tombol Create Category -->
           <a href="{{ route('dashboard.categories.create') }}" class="btn btn-success">
